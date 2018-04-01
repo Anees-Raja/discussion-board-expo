@@ -4,8 +4,6 @@ import { NavigationActions } from 'react-navigation'
 
 import { authSuccess, authError } from '../actions/auth_actions';
 
-const USER_REF = firebase.database().ref('users')
-
 export const auth_handler = store => next => action => {
   next(action)
 
@@ -14,7 +12,10 @@ export const auth_handler = store => next => action => {
       type: 'Navigation/NAVIGATE',
       routeName: 'FeedScreen'
     })
-    let currentUser = GoogleSignin.currentUser();
-    console.log('MIDDLEWARE: ', currentUser)
+
+    const USER_REF = firebase.database().ref('users')
+
+    let currentUser = store.getState().auth.currentUser
+
   }
 }
