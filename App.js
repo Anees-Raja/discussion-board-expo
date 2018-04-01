@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View } from 'react-native';
-
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { GoogleSignin } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
 
 export default class App extends React.Component {
@@ -9,47 +9,40 @@ export default class App extends React.Component {
     this.state = {
       // firebase things?
     };
+
+    // Calling this function will open Google for login.
+    this.googleLogin = async () => {
+      try {
+        // Add any configuration settings here:
+        await GoogleSignin.configure({
+          webClientId: '183152452205-ckd205qbcrn6676d3q5h6lsde1qcb3sl.apps.googleusercontent.com'
+        });
+
+        const data = await GoogleSignin.signIn();
+
+        // create a new firebase credential with the token
+        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+        // login with credential
+        const currentUser = await firebase.auth().signInWithCredential(credential);
+
+        console.info(JSON.stringify(currentUser.toJSON()));
+        alert(`Email: ${currentUser.email}`)
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 
   componentDidMount() {
-    // firebase things?
+    
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('./assets/RNFirebase512x512.png')} style={[styles.logo]} />
-        <Text style={styles.welcome}>
-          Welcome to the React Native{'\n'}Firebase starter project!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        {Platform.OS === 'ios' ? (
-          <Text style={styles.instructions}>
-            Press Cmd+R to reload,{'\n'}
-            Cmd+D or shake for dev menu
-          </Text>
-        ) : (
-          <Text style={styles.instructions}>
-            Double tap R on your keyboard to reload,{'\n'}
-            Cmd+M or shake for dev menu
-          </Text>
-        )}
-        <View style={styles.modules}>
-          <Text style={styles.modulesHeader}>The following Firebase modules are enabled:</Text>
-          {firebase.admob.nativeModuleExists && <Text style={styles.module}>Admob</Text>}
-          {firebase.analytics.nativeModuleExists && <Text style={styles.module}>Analytics</Text>}
-          {firebase.auth.nativeModuleExists && <Text style={styles.module}>Authentication</Text>}
-          {firebase.fabric.crashlytics.nativeModuleExists && <Text style={styles.module}>Crashlytics</Text>}
-          {firebase.crash.nativeModuleExists && <Text style={styles.module}>Crash Reporting</Text>}
-          {firebase.firestore.nativeModuleExists && <Text style={styles.module}>Cloud Firestore</Text>}
-          {firebase.messaging.nativeModuleExists && <Text style={styles.module}>Messaging</Text>}
-          {firebase.perf.nativeModuleExists && <Text style={styles.module}>Performance Monitoring</Text>}
-          {firebase.database.nativeModuleExists && <Text style={styles.module}>Realtime Database</Text>}
-          {firebase.config.nativeModuleExists && <Text style={styles.module}>Remote Config</Text>}
-          {firebase.storage.nativeModuleExists && <Text style={styles.module}>Storage</Text>}
-        </View>
+        <TouchableOpacity style={styles.button} onPress={this.googleLogin} >
+          <Text style={styles.text}>Sign In</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -62,31 +55,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  logo: {
-    height: 80,
-    marginBottom: 16,
-    width: 80,
+  button: {
+    width: 100,
+    height: 30,
+    backgroundColor: '#cc9e35',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  modules: {
-    margin: 20,
-  },
-  modulesHeader: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  module: {
-    fontSize: 14,
-    marginTop: 4,
-    textAlign: 'center',
+  text: {
+    color: '#ffffff',
   }
 });

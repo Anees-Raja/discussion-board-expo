@@ -103,7 +103,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.invertase.rnfirebasestarter"
+        applicationId "com.aneesraja.discussionboard"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -148,9 +148,14 @@ android {
 }
 
 dependencies {
+    compile(project(":react-native-google-signin")){         
+        exclude group: "com.google.android.gms" // very important
+    }
     compile(project(':react-native-firebase')) {
         transitive = false
     }
+
+     compile 'com.google.android.gms:play-services-auth:11.8.0'
 
     // RNFirebase required dependencies
     compile "com.google.firebase:firebase-core:11.8.0"
