@@ -19,3 +19,14 @@ export const auth_handler = store => next => action => {
 
   }
 }
+
+export const checkLoading = store => next => action => {
+  next(action)
+
+  if(action.type === 'START_LOADING'){
+    store.dispatch({
+      type: 'Navigation/NAVIGATE',
+      routeName: 'LoadingScreen'
+    })
+  }
+}

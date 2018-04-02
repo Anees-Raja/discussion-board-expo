@@ -1,34 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Container } from 'native-base';
 import { GoogleSignin } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
 
+import CardContainer from '../components/Card'
 export default class FeedScreen extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Feed Screen</Text>
-      </View>
+      <Container>
+        <CardContainer />
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  button: {
-    width: 100,
-    height: 30,
-    backgroundColor: '#cc9e35',
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#ffffff',
-  }
-});

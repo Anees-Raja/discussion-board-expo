@@ -1,5 +1,6 @@
 import { GoogleSignin } from 'react-native-google-signin'
 import firebase from 'react-native-firebase';
+import { startLoading, finishLoading } from './qol_actions'
 
 export const AUTH_START = 'AUTH_START'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
@@ -29,6 +30,7 @@ const addPhoto = (photo_url) => ({
 export const login = () => {
   return async (dispatch) => {
     dispatch(authStart())
+    dispatch(startLoading())
     try {
       // Add any configuration settings here:
       await GoogleSignin.configure();
@@ -59,13 +61,14 @@ export const login = () => {
       }
       dispatch(addUserToFirebase(currentUser))
     } catch (e) {
-      console.error(e);
+      dispatch(authError(e))
     }
   }
 }
 
 export const addUserToFirebase = (user) => {
   return(dispatch) => {
+    dispatch(startLoading())
     let user_ref = firebase.database().ref('users')
     user_ref.once('value', snap => {
       if(snap.val() != null){
@@ -84,7 +87,6 @@ export const addUserToFirebase = (user) => {
 
 const firstTimeLogin = (user) => {
   return(dispatch) => {
-    console.log('FIRST TIME LOGIN', user)
     let user_ref = firebase.database().ref('users')
     let key = user_ref.push().key
     let userWithId = {
@@ -92,6 +94,7 @@ const firstTimeLogin = (user) => {
       uid: key,
     }
     user_ref.child(key).set(userWithId)
+    dispatch(finishLoading())
     dispatch(authSuccess(userWithId))
   }
 }
@@ -109,6 +112,7 @@ const returningUser = (user) => {
     }
     let user_ref = firebase.database().ref(`users/${user.uid}`)
     user_ref.update(userObject)
+    dispatch(finishLoading())
     dispatch(authSuccess(userObject))
   }
 }
