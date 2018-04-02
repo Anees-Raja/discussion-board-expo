@@ -12,6 +12,7 @@ import { connect, Provider } from 'react-redux'
 
 import MainNavigator from './config/routes'
 import configureStore from './store'
+import { Root } from 'native-base';
 
 
 const middleware = createReactNavigationReduxMiddleware("root", state => state.nav)
@@ -44,7 +45,9 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <AppWithNavState />
+        <Root>
+          <AppWithNavState />
+        </Root>
       </Provider>
     )
   }
