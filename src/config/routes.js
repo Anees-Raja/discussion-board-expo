@@ -7,6 +7,8 @@ import LoginScreen from '../screens/LoginScreen'
 import LoadingScreen from '../screens/LoadingScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ActivityScreen from '../screens/ActivityScreen'
+import FormEntryScreen from '../screens/FormEntryScreen'
+import PostFormScreen from '../screens/PostFormScreen';
 
 const MainTabNavigator = TabNavigator({
   Profile: {
@@ -63,10 +65,16 @@ const MainNavigator = StackNavigator({
     screen: LoginScreen,
   },
   FeedScreen: {
-    screen: MainTabNavigator
+    screen: MainTabNavigator,
   },
   LoadingScreen: {
     screen: LoadingScreen,
+  },
+  FormEntry: {
+    screen: FormEntryScreen,
+  },
+  PostForm: {
+    screen: PostFormScreen,
   }
 }, {
   initialRouteName: 'LoginScreen',

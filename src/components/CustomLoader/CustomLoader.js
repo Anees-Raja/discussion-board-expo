@@ -9,8 +9,8 @@ export default class CustomLoader extends Component {
       <Body style={styles.body}>
         {
           isLoading ?
-          <Icon name='pulse' style={styles.icon} /> :
-          <Icon name='checkmark' style={styles.icon} />
+          <Icon name='code-working' style={styles.icon} large /> :
+          <Icon name='checkmark-circle' style={styles.icon} large />
         }
       </Body>
     )
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   icon: {
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    fontSize: 50,
   }
 })

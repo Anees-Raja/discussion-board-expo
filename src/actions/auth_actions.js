@@ -68,7 +68,6 @@ export const login = () => {
 
 export const addUserToFirebase = (user) => {
   return(dispatch) => {
-    dispatch(startLoading())
     let user_ref = firebase.database().ref('users')
     user_ref.once('value', snap => {
       if(snap.val() != null){
