@@ -22,13 +22,15 @@ const addListener = createReduxBoundAddListener("root")
 class AppWithoutNavState extends Component {
   render() {
     return (
-      <MainNavigator 
-      navigation={addNavigationHelpers({
-        dispatch: this.props.dispatch,
-        state: this.props.nav,
-        addListener,
-      })}
-      />
+      <Root>
+        <MainNavigator 
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.nav,
+          addListener,
+        })}
+        />
+      </Root>
     );
   }
 }
@@ -45,9 +47,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Root>
-          <AppWithNavState />
-        </Root>
+        <AppWithNavState />
       </Provider>
     )
   }

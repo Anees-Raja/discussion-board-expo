@@ -7,7 +7,7 @@ import { getFormType } from '../../actions/form_actions'
 const FormEntryContainer = (props) => {
   return (
     <FormEntry 
-      getValue={props.getValue}
+      getFormType={props.getFormType}
       selected_value={props.selected_value}
       navigation={props.navigation}
     />

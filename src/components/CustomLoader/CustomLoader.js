@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native'
-import { Content, Icon, Body } from 'native-base'
+import { Content, Icon, Body, Spinner } from 'native-base'
 
 export default class CustomLoader extends Component {
   render() {
@@ -9,7 +9,7 @@ export default class CustomLoader extends Component {
       <Body style={styles.body}>
         {
           isLoading ?
-          <Icon name='code-working' style={styles.icon} large /> :
+          <Spinner color="#FFFFFF" /> :
           <Icon name='checkmark-circle' style={styles.icon} large />
         }
       </Body>
