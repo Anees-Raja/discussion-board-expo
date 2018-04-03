@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Content, Form, Item, Input, Label, Text, Button, Icon, Grid, Row } from 'native-base';
+import { Content, Form, Item, Input, Label, Text, Button, Icon, Grid, Row, Col } from 'native-base';
 
 export default class EventForm extends Component {
   render() {
@@ -26,9 +26,16 @@ export default class EventForm extends Component {
               </Item>
             </Form>
           <Row style={styles.buttonRow} size={25}>
-            <Button onPress={() => this.props.navigation.goBack()} block >
-              <Icon name="close-circle" />
-            </Button>
+            <Col>
+              <Button onPress={() => this.props.navigation.goBack()} block danger >
+                <Icon name="close-circle" />
+              </Button>
+            </Col>
+            <Col>
+              <Button onPress={() => this.props.navigation.goBack()} block success >
+                <Icon name="checkmark" />
+              </Button>
+            </Col>
           </Row>
         </Grid>
       </Content>
@@ -40,6 +47,6 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10
+    padding: 50
   }
 })

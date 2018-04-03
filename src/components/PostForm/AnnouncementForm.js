@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Content, Form, Item, Input, Label, Text, Grid, Row, Button, Icon } from 'native-base';
+import { Content, Form, Item, Input, Label, Text, Grid, Row, Button, Icon, Col } from 'native-base';
 
 export default class AnnouncementForm extends Component {
   render() {
@@ -22,9 +22,16 @@ export default class AnnouncementForm extends Component {
             </Item>
           </Form>
           <Row style={styles.buttonRow} size={25}>
-            <Button onPress={() => this.props.navigation.goBack()} block >
-              <Icon name="close-circle" />
-            </Button>
+            <Col>
+              <Button onPress={() => this.props.navigation.goBack()} block danger >
+                <Icon name="close-circle" />
+              </Button>
+            </Col>
+            <Col>
+              <Button onPress={() => this.props.navigation.goBack()} block success >
+                <Icon name="checkmark" />
+              </Button>
+            </Col>
           </Row>
         </Grid>
       </Content>
