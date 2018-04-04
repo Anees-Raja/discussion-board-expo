@@ -19,10 +19,6 @@ export default class FormEntry extends Component {
       })
     }
 
-    this.handleToast = () => {
-      this.setState({ showToast: false })
-    }
-
     this.checkValandGo = () => {
       if(this.state.selected != ''){
         this.props.navigation.navigate('PostForm')

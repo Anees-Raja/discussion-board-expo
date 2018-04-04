@@ -7,6 +7,6 @@ import FormReducer from './FormReducer';
 export default rootReducer = combineReducers({
   nav: NavigationReducer,
   auth: AuthReducer,
+  form: FormReducer,
   qol: QolReducer,
-  form: FormReducer
 })

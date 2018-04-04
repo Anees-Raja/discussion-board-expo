@@ -1,4 +1,4 @@
-import { SET_FORM_TYPE, SET_TITLE, SET_BODY, SET_MEDIA, SET_EVENT_DATE } from '../actions/form_actions'
+import { SET_FORM_TYPE, SET_TITLE, SET_BODY, SET_MEDIA, SET_EVENT_DATE, OPEN_DATE, CLOSE_DATE } from '../actions/form_actions'
 
 
 INITIAL_STATE = {
@@ -7,6 +7,7 @@ INITIAL_STATE = {
   body: '',
   media: {},
   event_date: '',
+  showDatePicker: false
 }
 
 export default FormReducer = ( state = INITIAL_STATE, action ) => {
@@ -34,6 +35,15 @@ export default FormReducer = ( state = INITIAL_STATE, action ) => {
     case SET_EVENT_DATE:
       return {
         event_date: action.date
+      }
+    case OPEN_DATE:
+      return {
+        ...state,
+        showDatePicker: true
+      }
+    case CLOSE_DATE:
+      return {
+        showDatePicker: false
       }
     default:
       return state

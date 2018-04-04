@@ -42,6 +42,8 @@ export const login = () => {
       // login with credential
       const currentUserRaw = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
+      let uid = currentUserRaw.user._user.uid
+
       //get the important user info and store it
       let user_profile = currentUserRaw.additionalUserInfo.profile
 
@@ -50,14 +52,14 @@ export const login = () => {
         verified_email: user_profile.verified_email,
         locale: user_profile.locale,
       }
-
       let currentUser = {
         metadata,
+        uid,
         email: user_profile.email,
         first_name: user_profile.given_name,
         last_name: user_profile.family_name,
         gender: user_profile.gender,
-        avatar: user_profile.picture
+        avatar: user_profile.picture,
       }
       dispatch(addUserToFirebase(currentUser))
     } catch (e) {
@@ -72,9 +74,8 @@ export const addUserToFirebase = (user) => {
     user_ref.once('value', snap => {
       if(snap.val() != null){
         snap.forEach(childSnap => {
-          let userDB = childSnap.val()
-          if(userDB.email === user.email){
-            dispatch(returningUser(userDB))
+          if(user.uid === childSnap.key){
+            dispatch(returningUser(user))
           }
         })
       }else{
@@ -87,14 +88,9 @@ export const addUserToFirebase = (user) => {
 const firstTimeLogin = (user) => {
   return(dispatch) => {
     let user_ref = firebase.database().ref('users')
-    let key = user_ref.push().key
-    let userWithId = {
-      ...user,
-      uid: key,
-    }
-    user_ref.child(key).set(userWithId)
+    user_ref.child(user.uid).set(user)
+    dispatch(authSuccess(user))
     dispatch(finishLoading())
-    dispatch(authSuccess(userWithId))
   }
 }
 
@@ -111,7 +107,7 @@ const returningUser = (user) => {
     }
     let user_ref = firebase.database().ref(`users/${user.uid}`)
     user_ref.update(userObject)
-    dispatch(finishLoading())
     dispatch(authSuccess(userObject))
+    dispatch(finishLoading())
   }
 }

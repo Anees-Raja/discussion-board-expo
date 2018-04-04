@@ -3,6 +3,41 @@ import { StyleSheet } from 'react-native';
 import { Content, Form, Item, Input, Label, Text, Grid, Row, Button, Icon, Col } from 'native-base';
 
 export default class AnnouncementForm extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      title: '',
+      body: ''
+    }
+
+    this.handleTitle = (t) => {
+      this.props.getTitle(t)
+      this.setState({
+        title: t
+      })
+    }
+
+    this.handleBody = (b) => {
+      this.props.getBody(b)
+      this.setState({
+        body: b
+      })
+    }
+
+    this.handleSubmit = () => {
+      let data = {
+        type: this.props.formType,
+        title: this.props.title,
+        body: this.props.body
+      }
+      if (this.props.title === '' && this.props.body === '') {
+        alert('Please fill out form to submit.')
+      }else{
+        this.props.handleFormSubmit(data)
+      }
+    }
+  }
   render() {
     return(
       <Content padder>
@@ -10,7 +45,7 @@ export default class AnnouncementForm extends Component {
           <Form>
             <Item floatingLabel>
               <Label>Title</Label>
-              <Input />
+              <Input onChangeText={(text) => this.handleTitle(text)} />
             </Item>
             <Item floatingLabel last>
               <Label>Body</Label>
@@ -18,17 +53,18 @@ export default class AnnouncementForm extends Component {
               multiline={true}
               numberOfLines={14}
               style={{ height: 400 }}
+              onChangeText={(text) => this.handleBody(text)}
               />
             </Item>
           </Form>
           <Row style={styles.buttonRow} size={25}>
             <Col>
-              <Button onPress={() => this.props.navigation.goBack()} block danger >
+              <Button onPress={() => this.props.navigation.goBack()} danger >
                 <Icon name="close-circle" />
               </Button>
             </Col>
             <Col>
-              <Button onPress={() => this.props.navigation.goBack()} block success >
+              <Button onPress={() => this.handleSubmit()} success >
                 <Icon name="checkmark" />
               </Button>
             </Col>
@@ -43,6 +79,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10
+    padding: 50,
+    paddingLeft: 100
   }
 })
