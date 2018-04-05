@@ -10,27 +10,16 @@ import {
   Button,
   Icon
 } from "native-base";
-
-export default class CustomCard extends Component {
+class ActivityCard extends Component {
   render() {
     return (
       <Content padder>
         <CardItem header>
-          <Text>NativeBase</Text>
+          <Text>{this.props.data.title} activity</Text>
         </CardItem>
           <CardItem>
             <Body>
-              <Text>
-                Lorem ipsum dolor sit amet, ei nam nulla veritus postulant.
-                Duo integre antiopam ea, scaevola vivendum eam te. Ea pro
-                quando exerci. Has esse soluta repudiare et. Ut quis dolorem
-                evertitur sed. Ne tempor scribentur cotidieque mea, invidunt
-                omittantur ne usu. Elitr maiestatis ius no. Ius cu ocurreret
-                maluisset evertitur, nec dolore petentium ocurreret eu. Cu cum
-                unum forensibus, ex vim iuvaret erroribus, sea an elitr
-                detracto voluptaria. Et sit nostro aliquip veritus. Mei error
-                veritus officiis at, at commodo appareat partiendo mel.
-              </Text>
+              <Text>{this.props.data.body}</Text>
             </Body>
           </CardItem>
         <CardItem footer>
@@ -38,5 +27,62 @@ export default class CustomCard extends Component {
         </CardItem>
       </Content>
     );
+  }
+}
+
+class AnnouncementCard extends Component {
+  render() {
+    return (
+      <Content padder>
+        <CardItem header>
+          <Text>{this.props.data.title} announcement</Text>
+        </CardItem>
+          <CardItem>
+            <Body>
+              <Text>{this.props.data.body}</Text>
+            </Body>
+          </CardItem>
+        <CardItem footer>
+          <Button transparent success><Icon name="thumbs-up" /></Button>
+        </CardItem>
+      </Content>
+    );
+  }
+}
+
+class EventCard extends Component {
+  render() {
+    return (
+      <Content padder>
+        <CardItem header>
+          <Text>{this.props.data.title} event</Text>
+        </CardItem>
+          <CardItem>
+            <Body>
+              <Text>{this.props.data.body}</Text>
+            </Body>
+          </CardItem>
+        <CardItem footer>
+          <Button transparent success><Icon name="thumbs-up" /></Button>
+        </CardItem>
+      </Content>
+    );
+  }
+}
+
+
+export default class CustomCard extends Component {
+
+  render(){
+    const { type } = this.props.data
+    return(
+      <Card>
+      {
+        type === 'event' ? <EventCard data={this.props.data} /> :
+        type === 'announcement' ? <AnnouncementCard data={this.props.data} /> :
+        type === 'activity' ? <ActivityCard data={this.props.data} /> : null
+      }
+      </Card>
+    )
   }
 }

@@ -98,58 +98,23 @@ export const SUBMIT_ACTIVITY = 'SUBMIT_ACTIVITY'
 export const SUBMIT_ANNOUNCEMENT = 'SUBMIT_ANNOUNCEMENT'
 export const SUBMIT_SUCCESS = 'SUBMIT_SUCCESS'
 
-const EVENT_REF = firebase.database().ref('posts/events/')
-const ACTIVITY_REF = firebase.database().ref('posts/activities/')
-const ANNOUNCEMENT_REF = firebase.database().ref('posts/announcements/')
+const POST_REF = firebase.database().ref('posts')
 
 const submitStart = (data) => ({
   type: SUBMIT_START,
   data,
 })
 
-export const submitEvent = (eventObj) => {
-  return(dispatch) => {
-    dispatch({ type: SUBMIT_EVENT })
-
-    let key = EVENT_REF.push().key
-    let newObj = {
-      ...eventObj,
-      id: key
-    }
-    EVENT_REF.child(key).set(eventObj)
-
-    dispatch(finishLoading())
-    dispatch(submitSuccess())
-  }
-}
-
-export const submitActivity = (activityObj) => {
+export const submitPost = (postObj) => {
   return(dispatch) => {
     dispatch({ type: SUBMIT_ACTIVITY })
 
-    let key = ACTIVITY_REF.push().key
+    let key = POST_REF.push().key
     let newObj = {
-      ...activityObj,
+      ...postObj,
       id: key
     }
-    ACTIVITY_REF.child(key).set(activityObj)
-
-    dispatch(finishLoading())
-    dispatch(submitSuccess())
-  }
-}
-
-export const submitAnnouncement = (announcementObj) => {
-  return(dispatch) => {
-
-    dispatch({ type: SUBMIT_ANNOUNCEMENT })
-
-    let key = ANNOUNCEMENT_REF.push().key
-    let newObj = {
-      ...announcementObj,
-      id: key
-    }
-    ANNOUNCEMENT_REF.child(key).set(newObj)
+    POST_REF.child(key).set(newObj)
 
     dispatch(finishLoading())
     dispatch(submitSuccess())
@@ -160,9 +125,9 @@ const submitSuccess = () => ({
   type: SUBMIT_SUCCESS
 })
 
-export const handleFormSubmit = (data, formType) => {
+export const handleFormSubmit = (data) => {
   return(dispatch) => {
     dispatch(startLoading())
-    dispatch(submitStart(data, formType))
+    dispatch(submitStart(data))
   }
 }

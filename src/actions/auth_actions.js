@@ -1,36 +1,39 @@
-import { GoogleSignin } from 'react-native-google-signin'
+import { GoogleSignin } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
-import { startLoading, finishLoading } from './qol_actions'
+import moment from 'moment';
 
-export const AUTH_START = 'AUTH_START'
-export const AUTH_SUCCESS = 'AUTH_SUCCESS'
-export const AUTH_ERROR = 'AUTH_ERROR'
-export const ADD_PHOTO = 'ADD_PHOTO'
+import { startLoading, finishLoading } from './qol_actions';
+
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const ADD_PHOTO = 'ADD_PHOTO';
+
+const USER_REF = firebase.database().ref('users');
 
 const authStart = () => ({
   type: AUTH_START
-})
+});
 
-const authSuccess = (currentUser) => ({
+const authSuccess = currentUser => ({
   type: AUTH_SUCCESS,
   currentUser
-})
+});
 
-const authError = (err) => ({
+const authError = err => ({
   type: AUTH_ERROR,
-  err,
-})
+  err
+});
 
-const addPhoto = (photo_url) => ({
+const addPhoto = photo_url => ({
   type: ADD_PHOTO,
   photo_url
-})
-
+});
 
 export const login = () => {
-  return async (dispatch) => {
-    dispatch(authStart())
-    dispatch(startLoading())
+  return async dispatch => {
+    dispatch(authStart());
+    dispatch(startLoading());
     try {
       // Add any configuration settings here:
       await GoogleSignin.configure();
@@ -38,20 +41,23 @@ export const login = () => {
       const data = await GoogleSignin.signIn();
 
       // create a new firebase credential with the token
-      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        data.idToken,
+        data.accessToken
+      );
       // login with credential
       const currentUserRaw = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
-      let uid = currentUserRaw.user._user.uid
+      let uid = currentUserRaw.user._user.uid;
 
       //get the important user info and store it
-      let user_profile = currentUserRaw.additionalUserInfo.profile
+      let user_profile = currentUserRaw.additionalUserInfo.profile;
 
       let metadata = {
         isNew: currentUserRaw.additionalUserInfo.isNewUser,
         verified_email: user_profile.verified_email,
-        locale: user_profile.locale,
-      }
+        locale: user_profile.locale
+      };
       let currentUser = {
         metadata,
         uid,
@@ -59,55 +65,52 @@ export const login = () => {
         first_name: user_profile.given_name,
         last_name: user_profile.family_name,
         gender: user_profile.gender,
-        avatar: user_profile.picture,
-      }
-      dispatch(addUserToFirebase(currentUser))
+        avatar: user_profile.picture
+      };
+      dispatch(addUserToFirebase(currentUser));
     } catch (e) {
-      dispatch(authError(e))
+      dispatch(authError(e));
     }
-  }
-}
+  };
+};
 
-export const addUserToFirebase = (user) => {
-  return(dispatch) => {
-    let user_ref = firebase.database().ref('users')
-    user_ref.once('value', snap => {
-      if(snap.val() != null){
+export const addUserToFirebase = user => {
+  return dispatch => {
+    USER_REF.once('value', snap => {
+      if (snap.val() != null) {
         snap.forEach(childSnap => {
-          if(user.uid === childSnap.key){
-            dispatch(returningUser(user))
+          if (user.uid === childSnap.key) {
+            dispatch(returningUser(user));
           }
-        })
-      }else{
-        dispatch(firstTimeLogin(user))
+        });
+      } else {
+        dispatch(firstTimeLogin(user));
       }
-    })
-  }
-}
+    });
+  };
+};
 
-const firstTimeLogin = (user) => {
-  return(dispatch) => {
-    let user_ref = firebase.database().ref('users')
-    user_ref.child(user.uid).set(user)
-    dispatch(authSuccess(user))
-    dispatch(finishLoading())
-  }
-}
+const firstTimeLogin = user => {
+  return dispatch => {
+    USER_REF.child(user.uid).set(user);
+    dispatch(authSuccess(user));
+    dispatch(finishLoading());
+  };
+};
 
-const returningUser = (user) => {
-  return(dispatch) => {
-    let meta = user.metadata
+const returningUser = user => {
+  return dispatch => {
+    let meta = user.metadata;
     let newMeta = {
       ...meta,
-      last_login: new Date()
-    }
+      last_login: moment()
+    };
     let userObject = {
       ...user,
       metadata: newMeta
-    }
-    let user_ref = firebase.database().ref(`users/${user.uid}`)
-    user_ref.update(userObject)
-    dispatch(authSuccess(userObject))
-    dispatch(finishLoading())
-  }
-}
+    };
+    USER_REF.child(user.uid).update(userObject);
+    dispatch(authSuccess(userObject));
+    dispatch(finishLoading());
+  };
+};

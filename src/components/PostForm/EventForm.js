@@ -36,7 +36,7 @@ export default class EventForm extends Component {
         title: this.props.title,
         body: this.props.body
       }
-      if (this.props.title === '' && this.props.body === '') {
+      if (this.state.title === '' || this.state.body === '') {
         alert('Please fill out form to submit.')
       }else{
         this.props.handleFormSubmit(data)
