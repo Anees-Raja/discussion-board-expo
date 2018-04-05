@@ -12,11 +12,6 @@ export const auth_handler = store => next => action => {
       type: 'Navigation/NAVIGATE',
       routeName: 'Feed'
     })
-
-    const USER_REF = firebase.database().ref('users')
-
-    let currentUser = store.getState().auth.currentUser
-
   }
 }
 

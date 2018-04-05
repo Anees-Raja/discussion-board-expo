@@ -110,7 +110,10 @@ const returningUser = user => {
       metadata: newMeta
     };
     USER_REF.child(user.uid).update(userObject);
-    dispatch(authSuccess(userObject));
+    USER_REF.child(user.uid).on('value', snapshot => {
+      let user = snapshot.val()
+      dispatch(authSuccess(user));
+    })
     dispatch(finishLoading());
   };
 };

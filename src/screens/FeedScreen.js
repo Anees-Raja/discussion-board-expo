@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
 import { Grid, Button, Text, Row } from 'native-base';
 import { StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 import CardContainer from '../components/Card'
-export default class FeedScreen extends Component {
+
+class FeedScreen extends Component {
   render() {
+    const { isAdmin } = this.props.currentUser
+    const rowSize = isAdmin ? 90 : 100
     return (
       <Grid style={styles.container}>
-        <Row style={styles.cardRow} size={75} >
+        <Row style={styles.cardRow} size={rowSize} >
           <CardContainer />
         </Row>
-        <Row style={styles.buttonRow} size={25} >
+        {isAdmin &&
+        <Row style={styles.buttonRow} size={10} >
           <Button style={styles.button} onPress={() => this.props.navigation.navigate('FormEntry')} >
             <Text>ADD A POST</Text>
           </Button>
-        </Row>
+        </Row>}
       </Grid>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  currentUser: state.auth.currentUser
+})
+
+export default connect(mapStateToProps)(FeedScreen)
 
 const styles = StyleSheet.create({
   container: {
