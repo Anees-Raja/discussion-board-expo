@@ -24,7 +24,6 @@ const MainTabNavigator = TabNavigator({
   tabBarPosition: 'bottom',
   initialRouteName: 'Feed',
   tabBarComponent: props => {
-    console.log(props)
     return(
       <Footer>
         <FooterTab>

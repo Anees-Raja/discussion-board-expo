@@ -45,7 +45,6 @@ export default class EventForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     return(
       <Content padder>
         <Form>

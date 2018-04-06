@@ -72,7 +72,6 @@ class AnnouncementCard extends Component {
 
 class EventCard extends Component {
   render() {
-    console.log(this.props);
     return (
       <Content padder>
         <CardItem header>

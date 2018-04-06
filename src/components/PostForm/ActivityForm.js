@@ -47,7 +47,6 @@ export default class ActivityForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     return(
       <Content padder>
         <Form>

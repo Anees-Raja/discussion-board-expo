@@ -6,7 +6,6 @@ import { List, ListItem } from 'native-base';
 
 const CustomCardContainer = props => {
   const { data } = props
-  console.log(props)
   return(
     <List 
     dataArray={data}

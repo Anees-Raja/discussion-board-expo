@@ -6,7 +6,6 @@ import { Content, H3, Grid, Row, Col, Text } from 'native-base'
 export default class UserInfo extends Component {
   render() {
     const user = this.props.user
-    console.log(user)
     return(
       <Content padder>
         {user &&

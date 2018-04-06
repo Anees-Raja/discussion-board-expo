@@ -7,7 +7,6 @@ import { startLoading, finishLoading } from './qol_actions';
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
-export const ADD_PHOTO = 'ADD_PHOTO';
 
 const USER_REF = firebase.database().ref('users');
 
@@ -25,10 +24,7 @@ const authError = err => ({
   err
 });
 
-const addPhoto = photo_url => ({
-  type: ADD_PHOTO,
-  photo_url
-});
+
 
 export const login = () => {
   return async dispatch => {
@@ -40,14 +36,42 @@ export const login = () => {
           androidClientId: '498987946235-bm1l6kv2a78j5nsg6m16q1r2e2hbckql.apps.googleusercontent.com',
           iosClientId: '498987946235-qh6v4ob61d2oakfrdke232b4oc3ck1n0.apps.googleusercontent.com',
           webClientId: '498987946235-g6helpupvb0om1cgt1d31tq2rv1o9i56.apps.googleusercontent.com',
-          scopes: ['profile', 'email']
+          scopes: [
+            'profile',
+            'email',
+            'https://www.googleapis.com/auth/plus.login',
+            'https://www.googleapis.com/auth/calendar.readonly',
+            'https://www.googleapis.com/auth/plus.me'
+          ]
         })
+        
+        //Calendar
+        //"locker.lcps.org_classroom2b332bb0@group.calendar.google.com"
+        let cal_ids = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', { headers: { Authorization: `Bearer ${data.accessToken}`} })
+        let cal_ids_res = await cal_ids.json()
+        let cal_ids_array = await cal_ids_res.items
+        let cal_keyExtractor = await cal_ids_array.forEach((obj) => {
+          fetch(`https://www.googleapis.com/calendar/v3/calendars/${obj.id}/events`, { headers: { Authorization: `Bearer ${data.accessToken}`} })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+        })
+        /**
+         * TODO:
+         * 
+         * dispatch({
+         *  type: 'FETCH',
+         *  url: 'api/endpoint',
+         *  accessToken
+         * })
+         */
+
 
         if(data.type === 'success'){
           // create a new firebase credential with the token
-          const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken,data.accessToken);
+          const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
           // login with credential
           const currentUserRaw = await firebase.auth().signInWithCredential(credential);
+          
         }else if(data.type === 'cancel'){
           console.log('cancelled login')
         }
@@ -74,7 +98,7 @@ export const login = () => {
         })
 
       } catch (e) {
-        console.log(e)
+        console.log('ERROR:::', e)
         dispatch(authError(e));
     }
   };
@@ -83,22 +107,20 @@ export const login = () => {
 export const addUserToFirebase = user => {
   return dispatch => {
     USER_REF.once('value', snap => {
-      if (snap.val() != null) {
         snap.forEach(childSnap => {
-          if (user.uid === childSnap.key) {
+          if (user.uid == childSnap.key) {
             dispatch(returningUser(user));
+          } else {
+            dispatch(firstTimeLogin(user))
           }
         });
-      } else {
-        dispatch(firstTimeLogin(user));
-      }
     });
   };
 };
 
 const firstTimeLogin = user => {
   return dispatch => {
-    USER_REF.child(user.uid).set(user);
+    USER_REF.child(user.uid).update(user);
     dispatch(authSuccess(user));
     dispatch(finishLoading());
   };
@@ -113,10 +135,9 @@ const returningUser = user => {
     };
     let userObject = {
       ...user,
-      metadata: newMeta
+      metadata: newMeta,
     };
-    console.log(userObject)
-    USER_REF.child(user.uid).update(userObject);
+    USER_REF.child(user.uid).update(userObject)
     USER_REF.child(user.uid).on('value', snapshot => {
       let user = snapshot.val()
       dispatch(authSuccess(user));

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native'
 import { Container, Content } from 'native-base'
 import FormEntryContainer from '../components/FormEntry'
 
@@ -13,3 +14,10 @@ export default class FormEntryScreen extends Component {
     );
   }
 }
+
+styles = StyleSheet.create({
+  conatiner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+})

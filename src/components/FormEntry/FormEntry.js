@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Content, Button, Picker, Form, Item as FormItem, Text } from "native-base";
+import { Content, Button, Picker, Form, Item as FormItem, Text, Right, Left } from "native-base";
 
 const Item = Picker.Item;
 
@@ -41,9 +41,18 @@ export default class FormEntry extends Component {
           <Item label="Event" value="event" />
           <Item label="Activity" value="activity" />
         </Picker>
-        <Button style={styles.button} onPress={() => this.checkValandGo()} block transparent >
-          <Text style={styles.buttonText} >Next</Text>
-        </Button>
+        <Content padder>
+          <Right>
+            <Button style={styles.button} onPress={() => this.checkValandGo()} block transparent >
+              <Text style={styles.buttonText} >Next</Text>
+            </Button>
+          </Right>
+          <Left>
+            <Button style={styles.button} onPress={() => this.props.navigation.goBack()} block transparent >
+              <Text style={styles.buttonText} >Back</Text>
+            </Button>
+          </Left>
+        </Content>
       </Form>
     );
   }

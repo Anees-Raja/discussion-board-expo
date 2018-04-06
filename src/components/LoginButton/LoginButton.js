@@ -10,48 +10,6 @@ export default class LoginButton extends Component {
     this.handlePress = () => {
       this.props.login()
     }
-
-    this._handleGoogleLogin = async () => {
-      try {
-        const data = await Google.logInAsync({
-          androidClientId: '498987946235-bm1l6kv2a78j5nsg6m16q1r2e2hbckql.apps.googleusercontent.com',
-          iosClientId: '498987946235-qh6v4ob61d2oakfrdke232b4oc3ck1n0.apps.googleusercontent.com',
-          webClientId: '498987946235-g6helpupvb0om1cgt1d31tq2rv1o9i56.apps.googleusercontent.com',
-          behavior: 'system',
-          scopes: ['profile', 'email']
-        });
-  
-        switch (data.type) {
-          case 'success': {
-            console.log(data)
-            Alert.alert(
-              'Logged in!',
-              `Hi ${data.user.name}!`,
-            );
-            break;
-          }
-          case 'cancel': {
-            Alert.alert(
-              'Cancelled!',
-              'Login was cancelled!',
-            );
-            break;
-          }
-          default: {
-            Alert.alert(
-              'Oops!',
-              'Login failed!',
-            );
-          }
-        }
-      } catch (e) {
-        Alert.alert(
-          'Oops!',
-          'Login failed!',
-        );
-      }
-    };
-
   }
 
   render() {

@@ -17,11 +17,9 @@ export const fetchPosts = (current_posts) => {
     let posts = POST_REF.once('value', snap => {
       let postsObj = snap.val()
       let posts_arr = Object.values(postsObj)
-
-      // if(posts_arr.length > current_posts.length){
-      //   dispatch(setPosts(posts_arr))
-      // }
-      dispatch(setPosts(posts_arr))
+      if(posts_arr.length > current_posts.length){
+        dispatch(setPosts(posts_arr))
+      }
     })
   }
 }
