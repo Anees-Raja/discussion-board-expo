@@ -2,7 +2,7 @@ import { SET_POSTS } from '../actions/feed_actions'
 
 
 INITIAL_STATE = {
-  data: ['']
+  data: []
 }
 
 export default FeedReducer = (state = INITIAL_STATE, action) => {

@@ -1,8 +1,15 @@
 import { submitPost } from '../actions/form_actions'
 import { fetchPosts } from '../actions/feed_actions'
 
+
 export const formSubmitter = store => next => action => {
   next(action)
+
+  if(action){
+    let current_state = store.getState()
+    console.log(action.type, action)
+    console.log('STATE:', current_state)
+  }
 
   if(action.type === 'SUBMIT_START'){
     let { data } = action
@@ -32,8 +39,7 @@ export const feedFetcher = store => next => action => {
   next(action)
 
   let current_posts_state = store.getState().feed.data
-
-  if(action.routeName === 'Feed'){
+  if(action.routeName == 'Feed'){
     store.dispatch(fetchPosts(current_posts_state))
   }
 }

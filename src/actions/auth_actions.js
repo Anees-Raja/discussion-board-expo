@@ -1,5 +1,6 @@
-import firebase from '../config/firebase'
+import firebase from '../config/firebase';
 import { Google } from 'expo';
+import { fetchCalendarEvents } from './fetch_actions';
 
 
 import { startLoading, finishLoading } from './qol_actions';
@@ -25,7 +26,6 @@ const authError = err => ({
 });
 
 
-
 export const login = () => {
   return async dispatch => {
     dispatch(authStart());
@@ -44,17 +44,10 @@ export const login = () => {
             'https://www.googleapis.com/auth/plus.me'
           ]
         })
-        
+
         //Calendar
         //"locker.lcps.org_classroom2b332bb0@group.calendar.google.com"
-        let cal_ids = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', { headers: { Authorization: `Bearer ${data.accessToken}`} })
-        let cal_ids_res = await cal_ids.json()
-        let cal_ids_array = await cal_ids_res.items
-        let cal_keyExtractor = await cal_ids_array.forEach((obj) => {
-          fetch(`https://www.googleapis.com/calendar/v3/calendars/${obj.id}/events`, { headers: { Authorization: `Bearer ${data.accessToken}`} })
-            .then((res) => res.json())
-            .then((data) => console.log(data))
-        })
+
         /**
          * TODO:
          * 
@@ -65,38 +58,36 @@ export const login = () => {
          * })
          */
 
-
         if(data.type === 'success'){
           // create a new firebase credential with the token
           const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
           // login with credential
           const currentUserRaw = await firebase.auth().signInWithCredential(credential);
+
+          firebase.auth().onAuthStateChanged(user => {
+            let uid = user.uid;
+  
+            //get the important user info and store it
+            let metadata = {
+              isNew: false,
+              verified_email: user.emailVerified,
+              locale: 'en'
+            };
+            let currentUser = {
+              metadata,
+              uid,
+              email: user.email,
+              first_name: user.displayName,
+              last_name: '',
+              gender: 'male',
+              avatar: user.photoURL
+            };
+            dispatch(addUserToFirebase(currentUser))
+          })
           
         }else if(data.type === 'cancel'){
           console.log('cancelled login')
         }
-
-        firebase.auth().onAuthStateChanged(user => {
-          let uid = user.uid;
-
-          //get the important user info and store it
-          let metadata = {
-            isNew: false,
-            verified_email: user.emailVerified,
-            locale: 'en'
-          };
-          let currentUser = {
-            metadata,
-            uid,
-            email: user.email,
-            first_name: user.displayName,
-            last_name: '',
-            gender: 'male',
-            avatar: user.photoURL
-          };
-          dispatch(addUserToFirebase(currentUser));
-        })
-
       } catch (e) {
         console.log('ERROR:::', e)
         dispatch(authError(e));
@@ -145,3 +136,10 @@ const returningUser = user => {
     dispatch(finishLoading());
   };
 };
+
+const doTheFetches = (accessToken, currentUser) => {
+  return(dispatch) => {
+    console.log(accessToken)
+    dispatch(addUserToFirebase(currentUser));
+  }
+}
