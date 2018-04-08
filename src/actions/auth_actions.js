@@ -41,22 +41,10 @@ export const login = () => {
             'email',
             'https://www.googleapis.com/auth/plus.login',
             'https://www.googleapis.com/auth/calendar.readonly',
+            'https://www.googleapis.com/auth/classroom.courses.readonly',
             'https://www.googleapis.com/auth/plus.me'
           ]
         })
-
-        //Calendar
-        //"locker.lcps.org_classroom2b332bb0@group.calendar.google.com"
-
-        /**
-         * TODO:
-         * 
-         * dispatch({
-         *  type: 'FETCH',
-         *  url: 'api/endpoint',
-         *  accessToken
-         * })
-         */
 
         if(data.type === 'success'){
           // create a new firebase credential with the token
@@ -80,7 +68,8 @@ export const login = () => {
               first_name: user.displayName,
               last_name: '',
               gender: 'male',
-              avatar: user.photoURL
+              avatar: user.photoURL,
+              accessToken: data.accessToken
             };
             dispatch(addUserToFirebase(currentUser))
           })
@@ -113,7 +102,7 @@ const firstTimeLogin = user => {
   return dispatch => {
     USER_REF.child(user.uid).update(user);
     dispatch(authSuccess(user));
-    dispatch(finishLoading());
+    dispatch(finishLoading())
   };
 };
 
@@ -132,14 +121,7 @@ const returningUser = user => {
     USER_REF.child(user.uid).on('value', snapshot => {
       let user = snapshot.val()
       dispatch(authSuccess(user));
+      dispatch(finishLoading())
     })
-    dispatch(finishLoading());
   };
 };
-
-const doTheFetches = (accessToken, currentUser) => {
-  return(dispatch) => {
-    console.log(accessToken)
-    dispatch(addUserToFirebase(currentUser));
-  }
-}

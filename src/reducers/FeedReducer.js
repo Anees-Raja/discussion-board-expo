@@ -1,4 +1,4 @@
-import { SET_POSTS } from '../actions/feed_actions'
+import { SET_POSTS } from '../actions/fetch_actions'
 
 
 INITIAL_STATE = {
@@ -13,6 +13,6 @@ export default FeedReducer = (state = INITIAL_STATE, action) => {
         data: action.arr
       }
     default:
-      return state
+    return { ...state }
   }
 }

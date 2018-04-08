@@ -57,6 +57,6 @@ export default FormReducer = ( state = INITIAL_STATE, action ) => {
         showDatePicker: false
       }
     default:
-      return state
+      return { ...state }
   }
 }

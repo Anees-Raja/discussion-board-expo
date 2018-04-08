@@ -100,7 +100,7 @@ class EventCard extends Component {
 
 export default class CustomCard extends Component {
   render() {
-    const { type } = this.props.data;
+    const { type } = this.props.data
     return (
       <Card>
         {type === 'event' ? (
@@ -109,6 +109,12 @@ export default class CustomCard extends Component {
           <AnnouncementCard data={this.props.data} />
         ) : type === 'activity' ? (
           <ActivityCard data={this.props.data} />
+        ) : type === 'google_cal' ? (
+          //google cal component
+          <EventCard data={this.props.data} />
+        ) : type === 'google_crs' ? (
+          //google ann component
+          <EventCard data={this.props.data} />
         ) : null}
       </Card>
     );

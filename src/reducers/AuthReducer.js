@@ -26,6 +26,6 @@ export default AuthReducer = (state = INITIAL_STATE, action) => {
         isLoading: false
       }
     default:
-      return state
+    return { ...state }
   }
 }

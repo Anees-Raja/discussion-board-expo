@@ -4,7 +4,7 @@ import AuthReducer from './AuthReducer'
 import QolReducer from './QolReducer'
 import FormReducer from './FormReducer';
 import FeedReducer from './FeedReducer';
-import CalendarReducer from './CalendarReducer';
+import DataReducer from './DataReducer';
 
 export default rootReducer = combineReducers({
   nav: NavigationReducer,
@@ -12,5 +12,5 @@ export default rootReducer = combineReducers({
   form: FormReducer,
   qol: QolReducer,
   feed: FeedReducer,
-  cal: CalendarReducer
+  data: DataReducer
 })
