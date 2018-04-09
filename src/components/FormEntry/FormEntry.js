@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Content, Button, Picker, Form, Item as FormItem, Text, Right, Left } from "native-base";
+import { Container, Content, Button, Picker, Form, Item as FormItem, Text, Right, Left, Row, Icon } from "native-base";
 
 const Item = Picker.Item;
 
@@ -41,32 +41,34 @@ export default class FormEntry extends Component {
           <Item label="Event" value="event" />
           <Item label="Activity" value="activity" />
         </Picker>
-        <Container styles={styles.buttonContainer}>
-          <Right>
-            <Button style={styles.button} onPress={() => this.checkValandGo()} block transparent >
-              <Text style={styles.buttonText} >Next</Text>
-            </Button>
-          </Right>
+        <Row style={styles.buttonContainer}>
           <Left>
-            <Button style={styles.button} onPress={() => this.props.navigation.goBack()} block transparent >
-              <Text style={styles.buttonText} >Back</Text>
+            <Button iconLeft style={styles.button} onPress={() => this.props.navigation.goBack()} bordered danger >
+              <Icon name='arrow-forward' />
+              <Text style={styles.buttonText}>Back</Text>
             </Button>
           </Left>
-        </Container>
+          <Right>
+            <Button iconRight style={styles.button} onPress={() => this.checkValandGo()} bordered success >
+              <Icon name='arrow-back' />
+              <Text style={styles.buttonText}>Next</Text>
+            </Button>
+          </Right>
+        </Row>
       </Form>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  buttonText: {
+    color: '#30415D'
+  },
   buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center'
   },
   button: {
-    alignSelf: 'center'
-  },
-  buttonText: {
-    color: '#30415D'
+    padding: 10,
   }
 });

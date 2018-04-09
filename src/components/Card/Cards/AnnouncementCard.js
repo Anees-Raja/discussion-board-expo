@@ -6,18 +6,7 @@ import moment from 'moment';
 export default class AnnouncementCard extends Component {
   render(){
     let { type } = this.props.data
-    let icon_name = 'calendar-alt'
-    let icon_type = 'FontAwesome'
     let cardStyle = styles.event
-
-    if(type === 'announcement'){
-      icon = 'bullhorn'
-      cardStyle = styles.announcement
-    }
-    if(type === 'activity'){
-      icon = 'asterisk'
-      cardStyle = styles.activity
-    }
 
     return (
       <Card style={cardStyle}>
@@ -31,7 +20,11 @@ export default class AnnouncementCard extends Component {
         </CardItem>
         <CardItem footer style={styles.cardItem}>
           <Left>
-            <Icon style={{ color: 'white', backgroundColor: 'transparent' }} name={icon} />
+            {
+              type === 'announcement' ? <Icon name='megaphone' type='Entypo' style={{ color: 'white', fontSize: 20 }} /> :
+              type === 'event' ? <Icon name='event' type='SimpleLineIcons' style={{ color: 'white', fontSize: 20 }} /> :
+              type === 'activity' ? <Icon name='energy' type='SimpleLineIcons'style={{ color: 'white', fontSize: 20 }} /> : null
+            }
           </Left>
           <Right>
             <Text style={{ color: 'white', backgroundColor: 'transparent' }} >{this.props.data.author_name}</Text>
@@ -49,21 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   event: {
-    backgroundColor: '#813772',
-    borderRadius: 10,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  announcement: {
-    backgroundColor: '#062F4F',
-    borderRadius: 10,
-    height: 400,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  activity: {
-    backgroundColor: '#B82601',
+    backgroundColor: '#93b0ab',
     borderRadius: 10,
     height: 200,
     justifyContent: 'center',

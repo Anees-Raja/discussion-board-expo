@@ -21,6 +21,12 @@ export default class App extends Component {
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
     });
+    await Expo.Asset.loadAsync([
+      require('./assets/images/blur-background10.jpg'),
+      require('./assets/images/blur-background13.jpg'),
+      require('./assets/images/blur-background08.jpg'),
+      require('./assets/images/blur-background09.jpg'),
+    ]),
     this.setState({ isReady: true });
   }
   render() {

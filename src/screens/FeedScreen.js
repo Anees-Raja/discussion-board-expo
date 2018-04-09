@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Button, Text, Row, Spinner } from 'native-base';
-import { StyleSheet } from 'react-native';
+import { Grid, Button, Text, Row, Spinner, Icon } from 'native-base';
+import { StyleSheet, Image, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import CustomHeader from '../components/CustomHeaderMain'
 import CardContainer from '../components/Card'
 
 class FeedScreen extends Component {
@@ -11,21 +12,25 @@ class FeedScreen extends Component {
     const { data } = this.props
     const rowSize = isAdmin ? 90 : 100
     return (
-      <Grid style={styles.container}>
-        {data ? 
-        <Row style={styles.cardRow} size={rowSize} >
-          <CardContainer />
-        </Row> : 
-        <Row style={styles.buttonRow} size={rowSize}>
-          <Spinner large />
-        </Row>}
-        {isAdmin &&
-        <Row style={styles.buttonRow} size={10} >
-          <Button style={styles.button} onPress={() => this.props.navigation.navigate('FormEntry')} >
-            <Text>ADD A POST</Text>
-          </Button>
-        </Row>}
-      </Grid>
+      <View style={{ flex: 1 }}>
+        <Image style={styles.image} source={require('../../assets/images/blur-background08.jpg')} />
+        <CustomHeaderMain navigation={this.props.navigation} />
+        <Grid style={styles.container}>
+          {data ? 
+          <Row style={styles.cardRow} size={rowSize} >
+            <CardContainer />
+          </Row> : 
+          <Row style={styles.buttonRow} size={rowSize}>
+            <Spinner large color='white'  />
+          </Row>}
+          {isAdmin &&
+          <Row style={styles.buttonRow} size={10} >
+            <Button rounded transparent primary  onPress={() => this.props.navigation.navigate('FormEntry')} >
+              <Icon type='SimpleLineIcons' name='plus' style={{ fontSize: 30, }} />
+            </Button>
+          </Row>}
+        </Grid>
+      </View>
     );
   }
 }
@@ -39,15 +44,24 @@ export default connect(mapStateToProps)(FeedScreen)
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#18121E',
-    paddingTop: 20
+    backgroundColor:'transparent',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   cardRow: {
     borderColor: 'transparent',
     backgroundColor: 'transparent'
   },
-  button: {},
   buttonRow: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0, 
     justifyContent: 'center',
     alignItems: 'center',
   }

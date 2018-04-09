@@ -8,7 +8,7 @@ export const auth_handler = store => next => action => {
   if(action.type === 'AUTH_SUCCESS'){
     store.dispatch({
       type: 'Navigation/NAVIGATE',
-      routeName: 'Feed'
+      routeName: 'FeedScreen'
     })
   }
 }

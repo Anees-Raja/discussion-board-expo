@@ -25,7 +25,7 @@ export const formSubmitter = store => next => action => {
   if(action.type === 'SUBMIT_SUCCESS'){
     store.dispatch({
       type: 'Navigation/NAVIGATE',
-      routeName: 'Feed'
+      routeName: 'FeedScreen'
     })
   }
 }
@@ -35,7 +35,7 @@ export const feedFetcher = store => next => action => {
 
   let current_posts_state = store.getState().feed.data
 
-  if(action.routeName == 'Feed'){
+  if(action.routeName == 'FeedScreen'){
     store.dispatch(fetchPosts(current_posts_state))
   }
 }
