@@ -25,45 +25,58 @@ export const fetchPosts = (current_posts) => {
 
 export const SET_CAL = 'SET_CAL'
 
-const setCalendarEvents = (data) => ({
+export const setCalendarIds = (arr) => ({
   type: SET_CAL,
-  data
-}) 
-
-//gotta pass UID to this.
-export const fetchCalendarEvents = (userAccessToken) => {
-  return async (dispatch) => {
-    let cal_ids = await fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', { headers: { Authorization: `Bearer ${userAccessToken}`} })
-    let cal_ids_res = await cal_ids.json()
-    let cal_ids_array = await cal_ids_res.items
-    let events_array = []
-    let events = await cal_ids_array.forEach(item => {
-      fetch(`https://www.googleapis.com/calendar/v3/calendars/${item.id}/events`, { headers: { Authorization: `Bearer ${userAccessToken}`} })
-      .then((res) => res.json())
-      .then((data) => dispatch(setCalendarEvents({...data, type: 'google_cal'})))
-    })
-  }
-}
-
+  arr
+})
 
 export const fetchClassroomInfo = (userAccessToken) => {
   return async (dispatch) => {
     let course_res = await fetch('https://classroom.googleapis.com/v1/courses', { headers: { Authorization: `Bearer ${userAccessToken}`} })
     let course_res_info = await course_res.json()
+    let courses = []
     let course_info_array = course_res_info.courses
-    course_info_array.forEach(course => {
-      let data = {
-        ...course,
-        type: 'google_crs'
-      }
-      dispatch(setCourses(data))
-    })
+    course_info_array.forEach(course => courses.push(course))
+    dispatch(setCourses(courses))
+  }
+}
+// NOT BEING USED
+export const fetchAnnForCourse = (courseId, userAccessToken) => {
+  return async (dispatch) => {
+    let ann_res = await fetch(`https://classroom.googleapis.com/v1/courses/${courseId}/announcements/`, { headers: { Authorization: `Bearer ${userAccessToken}`} })
+    let ann_res_info = await ann_res.json()
+    console.log(ann_res_info)
   }
 }
 
+export const fetchCalForCourse = (calendarId, userAccessToken) => {
+  return async (dispatch) => {
+    let cal_res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, { headers: { Authorization: `Bearer ${userAccessToken}`} })
+    let cal_res_info = await cal_res.json()
+    console.log(cal_res_info)
+  }
+}
+// NOT BEING USED
+
 export const SET_COURSES = 'SET_COURSES'
 
-const setCourses = (data) => ({
-  type: SET_COURSES,
-  data
-})
+export const setCourses = (arr) => {
+  return(dispatch) => {
+    dispatch({
+      type: SET_COURSES,
+      arr
+    })
+    /**
+     * Check required auth scopes
+     * 
+     *  arr.forEach(course => {
+        let id = course.id
+        dispatch({ type: 'FETCH_ANN', id })
+        })
+     */
+    // arr.forEach(course => {
+    //   let cal_id = course.calendarId
+    //   dispatch({ type: 'FETCH_CAL', cal_id })
+    // })
+  }
+}

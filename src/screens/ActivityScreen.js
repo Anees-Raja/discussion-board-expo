@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container } from 'native-base';
-import CalendarListContainer from '../components/CalendarList';
+import { Container, Content } from 'native-base';
+import CourseListContainer from '../components/CourseList';
 
 export default class ActivityScreen extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <CalendarListContainer />
+        <Content padder>
+          <CourseListContainer />
+        </Content>
       </Container>
     );
   }
@@ -15,6 +17,6 @@ export default class ActivityScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   }
 });

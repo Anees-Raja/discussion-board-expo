@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { StyleSheet } from 'react-native';
 
 import CustomCard from './CustomCard';
 import { List, ListItem, Container } from 'native-base';
 
 const CustomCardContainer = props => {
-  const { data, events, courses } = props
-  const main = [...data, ...events, ...courses]
-  console.log(main)
+  const { data, events } = props
+  const main = [...data, ...events]
+
   return(
     <Container>
-      {data && events && courses &&
+      {data && events &&
       <List 
       dataArray={main}
       renderRow={(obj) => 
-      <ListItem>
+      <ListItem style={styles.item}>
         <CustomCard data={obj} />
       </ListItem>}
       >
@@ -23,10 +24,16 @@ const CustomCardContainer = props => {
   )
 }
 
+const styles = StyleSheet.create({
+  item: {
+    borderBottomWidth: 0
+  }
+})
+
 const mapStateToProps = state => ({
   data: state.feed.data,
   events: state.data.events,
-  courses: state.data.courses.info
 });
+
 
 export default connect(mapStateToProps)(CustomCardContainer);

@@ -41,7 +41,7 @@ export default class FormEntry extends Component {
           <Item label="Event" value="event" />
           <Item label="Activity" value="activity" />
         </Picker>
-        <Content padder>
+        <Container styles={styles.buttonContainer}>
           <Right>
             <Button style={styles.button} onPress={() => this.checkValandGo()} block transparent >
               <Text style={styles.buttonText} >Next</Text>
@@ -52,13 +52,17 @@ export default class FormEntry extends Component {
               <Text style={styles.buttonText} >Back</Text>
             </Button>
           </Left>
-        </Content>
+        </Container>
       </Form>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   button: {
     alignSelf: 'center'
   },

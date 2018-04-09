@@ -14,6 +14,8 @@ import MainNavigator from './config/routes'
 import configureStore from './store'
 import { Root } from 'native-base';
 
+console.disableYellowBox = true;
+
 
 const middleware = createReactNavigationReduxMiddleware("root", state => state.nav)
 

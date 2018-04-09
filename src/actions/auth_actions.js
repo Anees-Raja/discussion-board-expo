@@ -53,26 +53,53 @@ export const login = () => {
           const currentUserRaw = await firebase.auth().signInWithCredential(credential);
 
           firebase.auth().onAuthStateChanged(user => {
-            let uid = user.uid;
+            if(user){
+              let uid = user.uid;
   
-            //get the important user info and store it
-            let metadata = {
-              isNew: false,
-              verified_email: user.emailVerified,
-              locale: 'en'
-            };
-            let currentUser = {
-              metadata,
-              uid,
-              email: user.email,
-              first_name: user.displayName,
-              last_name: '',
-              gender: 'male',
-              avatar: user.photoURL,
-              accessToken: data.accessToken
-            };
-            dispatch(addUserToFirebase(currentUser))
+              //get the important user info and store it
+              let metadata = {
+                isNew: false,
+                verified_email: user.emailVerified,
+                locale: 'en'
+              };
+              let currentUser = {
+                metadata,
+                uid,
+                email: user.email,
+                first_name: user.displayName,
+                last_name: '',
+                gender: 'male',
+                avatar: user.photoURL,
+                accessToken: data.accessToken
+              };
+              dispatch(addUserToFirebase(currentUser))
+            }else{
+              alert('User signed out.')
+            }
           })
+
+          firebase.auth().onIdTokenChanged(function(user) {
+            if (user) {
+              let uid = user.uid;
+              //get the important user info and store it
+              let metadata = {
+                isNew: false,
+                verified_email: user.emailVerified,
+                locale: 'en'
+              };
+              let currentUser = {
+                metadata,
+                uid,
+                email: user.email,
+                first_name: user.displayName,
+                last_name: '',
+                gender: 'male',
+                avatar: user.photoURL,
+                accessToken: data.accessToken
+              };
+              dispatch(addUserToFirebase(currentUser))
+            }
+          });
           
         }else if(data.type === 'cancel'){
           console.log('cancelled login')

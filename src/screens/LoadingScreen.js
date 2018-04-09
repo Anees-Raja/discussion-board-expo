@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Content, Text } from 'native-base';
 import CustomLoaderContainer from '../components/CustomLoader';
 
-export default class FeedScreen extends Component {
+export default class LoadingScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#031424',
+    paddingTop: 20
   }
 });

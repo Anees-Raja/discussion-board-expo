@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button, Text, Row } from 'native-base';
+import { Grid, Button, Text, Row, Spinner } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -12,9 +12,12 @@ class FeedScreen extends Component {
     const rowSize = isAdmin ? 90 : 100
     return (
       <Grid style={styles.container}>
-        {data && 
+        {data ? 
         <Row style={styles.cardRow} size={rowSize} >
           <CardContainer />
+        </Row> : 
+        <Row style={styles.buttonRow} size={rowSize}>
+          <Spinner large />
         </Row>}
         {isAdmin &&
         <Row style={styles.buttonRow} size={10} >
@@ -36,11 +39,12 @@ export default connect(mapStateToProps)(FeedScreen)
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#8EAEBD'
+    backgroundColor: '#18121E',
+    paddingTop: 20
   },
   cardRow: {
-    paddingBottom: 10,
-    paddingTop: 10
+    borderColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   button: {},
   buttonRow: {

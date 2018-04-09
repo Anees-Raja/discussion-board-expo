@@ -1,5 +1,5 @@
 import { submitPost } from '../actions/form_actions'
-import { fetchPosts, fetchCalendarEvents, fetchClassroomInfo } from '../actions/fetch_actions'
+import { fetchPosts, fetchClassroomInfo, setCalendarEvents, setCourses, fetchAnnForCourse, fetchCalForCourse } from '../actions/fetch_actions'
 import { startLoading, finishLoading } from '../actions/qol_actions';
 
 
@@ -43,11 +43,24 @@ export const feedFetcher = store => next => action => {
 
 export const handleFetching = store => next => action => {
   next(action)
-
+  
   if(action.type == 'AUTH_SUCCESS'){
     let { accessToken } = action.currentUser
 
-    store.dispatch(fetchCalendarEvents(accessToken))
     store.dispatch(fetchClassroomInfo(accessToken))
+  }
+
+  if(action.type == 'FETCH_ANN'){
+    let { accessToken } = store.getState().auth.currentUser
+    let courseId = action.id
+    
+    store.dispatch(fetchAnnForCourse(courseId, accessToken))
+  }
+
+  if(action.type == 'FETCH_CAL'){
+    let { accessToken } = store.getState().auth.currentUser
+    let calendarId = action.id
+
+    store.dispatch(fetchCalForCourse(calendarId, accessToken))
   }
 }

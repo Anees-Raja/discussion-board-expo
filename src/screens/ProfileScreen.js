@@ -8,8 +8,7 @@ export default class ProfileScreen extends Component {
   render() {
     return (
       <Container>
-        <Content>
-          <Text>Profile Screen</Text>
+        <Content padder>
           <AvatarContainer />
           <UserInfoContainer />
         </Content>
