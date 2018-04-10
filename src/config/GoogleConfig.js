@@ -6,8 +6,8 @@ export default GoogleConfig = {
     'profile',
     'email',
     'https://www.googleapis.com/auth/plus.login',
-    //'https://www.googleapis.com/auth/calendar.readonly',
     'https://www.googleapis.com/auth/classroom.courses.readonly',
-    'https://www.googleapis.com/auth/plus.me'
+    'https://www.googleapis.com/auth/plus.me',
+        //'https://www.googleapis.com/auth/calendar.readonly',
   ]
 }

@@ -2,6 +2,56 @@ import firebase from '../config/firebase'
 
 import { startLoading, finishLoading } from './qol_actions'
 
+import { addUserToFirebase } from './auth_actions'
+
+
+export const GET_USER_INFO = 'GET_USER_INFO';
+
+export const fetchUserInfo = (userObj, userAccessToken) => {
+  return async (dispatch) => {
+    let user_res = await fetch(`https://www.googleapis.com/plus/v1/people/me`, { headers: { Authorization: `Bearer ${userAccessToken}`} })
+    let user_res_info = await user_res.json()
+    let user = user_res_info
+    let uid = userObj.uid
+    //get the important user info and store it
+    let metadata = {
+      isNew: false,
+      verified: user.verified,
+      isPlusUser: user.isPlusUser,
+      objectType: user.objectType,
+      language: user.language
+    };
+    let userFromPlusFetch = {
+      metadata,
+      uid,
+      email: user.emails[0].value,
+      first_name: user.name.givenName,
+      last_name: user.name.familyName,
+      gender: user.gender,
+      avatar: user.image.url,
+      profile_url: user.url,
+      accessToken: userAccessToken
+    };
+    let userFromNormalFetch = {
+      metadata,
+      uid,
+      email: user.emails[0].value,
+      first_name: user.name.givenName,
+      last_name: user.name.familyName,
+      gender: '',
+      avatar: user.image.url,
+      profile_url: '',
+      accessToken: userAccessToken,
+    }
+
+    let finalUser = userFromNormalFetch
+    if(user.isPlusUser){
+      finalUser = userFromPlusFetch
+    }
+    dispatch(addUserToFirebase(finalUser))
+  }
+}
+
 const POST_REF = firebase.database().ref('posts')
 
 export const SET_POSTS = 'SET_POSTS'

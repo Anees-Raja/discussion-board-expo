@@ -7,6 +7,7 @@ const CourseListContainer = (props) => {
   return(
     <CourseList 
     courses={props.courses}
+    navigation={props.navigation}
     />
   )
 }

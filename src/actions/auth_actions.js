@@ -1,8 +1,7 @@
 import firebase from '../config/firebase';
 import { Google } from 'expo';
-import { fetchCalendarEvents } from './fetch_actions';
-
-
+import { fetchCalendarEvents, fetchUserInfo } from './fetch_actions';
+import { NavigationActions } from 'react-navigation';
 import { startLoading, finishLoading } from './qol_actions';
 import GoogleConfig from '../config/GoogleConfig'
 
@@ -26,6 +25,16 @@ const authError = err => ({
   err
 });
 
+export const SIGN_OUT = 'SIGN_OUT'
+
+export const signOut = () => {
+  return(dispatch) => {
+    firebase.auth().signOut()
+    .then(dispatch({ type: SIGN_OUT }))
+    .catch(() => console.log('sign out error!'));
+  }
+}
+
 
 export const login = () => {
   return async dispatch => {
@@ -43,56 +52,14 @@ export const login = () => {
 
           firebase.auth().onAuthStateChanged(user => {
             if(user){
-              let uid = user.uid;
-  
-              //get the important user info and store it
-              let metadata = {
-                isNew: false,
-                verified_email: user.emailVerified,
-                locale: 'en'
-              };
-              let currentUser = {
-                metadata,
-                uid,
-                email: user.email,
-                first_name: user.displayName,
-                last_name: '',
-                gender: 'male',
-                avatar: user.photoURL,
-                accessToken: data.accessToken
-              };
-              dispatch(addUserToFirebase(currentUser))
+              dispatch(fetchUserInfo(user, data.accessToken))
             }else{
-              alert('User signed out.')
+              console.log('onAuthStateChanged ELSE')
             }
           })
-
-          firebase.auth().onIdTokenChanged(function(user) {
-            if (user) {
-              let uid = user.uid;
-              //get the important user info and store it
-              let metadata = {
-                isNew: false,
-                verified_email: user.emailVerified,
-                locale: 'en'
-              };
-              let currentUser = {
-                metadata,
-                uid,
-                email: user.email,
-                first_name: user.displayName,
-                last_name: '',
-                gender: 'male',
-                avatar: user.photoURL,
-                accessToken: data.accessToken
-              };
-              dispatch(addUserToFirebase(currentUser))
-            }
-          });
-          
-        }else if(data.type === 'cancel'){
-          console.log('cancelled login')
-        }
+          }else{
+            console.log('cancelled login')
+          }
       } catch (e) {
         console.log('ERROR:::', e)
         dispatch(authError(e));
@@ -118,7 +85,6 @@ const firstTimeLogin = user => {
   return dispatch => {
     USER_REF.child(user.uid).update(user);
     dispatch(authSuccess(user));
-    dispatch(finishLoading())
   };
 };
 
@@ -137,7 +103,6 @@ const returningUser = user => {
     USER_REF.child(user.uid).on('value', snapshot => {
       let user = snapshot.val()
       dispatch(authSuccess(user));
-      dispatch(finishLoading())
     })
   };
 };

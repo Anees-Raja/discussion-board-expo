@@ -7,15 +7,17 @@ class CustomHeader extends Component {
       <Header style={{ backgroundColor: 'transparent' }}>
         <Left>
           <Button transparent onPress={() => this.props.navigation.navigate('ActivityScreen')} >
-            <Icon type='SimpleLineIcons' name='notebook' style={{ fontSize: 15 }} />
+            <Icon type='SimpleLineIcons' name='notebook' style={{ fontSize: 18 }} />
           </Button>
         </Left>
         <Body>
-          <Title style={{ color: '#FFFFFF' }} >Bridges</Title>
+          <Button transparent>
+            <Title style={{ color: '#FFFFFF' }} >Bridges</Title>
+          </Button>
         </Body>
         <Right>
           <Button transparent onPress={() => this.props.navigation.navigate('ProfileScreen')} >
-            <Icon type='Entypo' name='user' style={{ fontSize: 15 }} />
+            <Icon type='Entypo' name='user' style={{ fontSize: 18 }} />
           </Button> 
         </Right>
       </Header>

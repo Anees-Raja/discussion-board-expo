@@ -7,16 +7,18 @@ class SecondaryHeader extends Component {
       <Header style={{ backgroundColor: 'transparent' }}>
         <Left>
           <Button transparent onPress={() => this.props.navigation.goBack()} >
-            <Icon type='SimpleLineIcons' name='arrow-left-circle' style={{ fontSize: 15 }} />
+            <Icon type='SimpleLineIcons' name='action-undo' style={{ fontSize: 22 }} />
           </Button>
         </Left>
         <Body>
           {this.props.pageTitle &&
-          <Title>{this.props.pageTitle}</Title>}
+          <Button transparent onPress={() => this.props.navigation.navigate('FeedScreen')} >
+            <Title style={{ color: '#FFFFFF' }} >{this.props.pageTitle}</Title>
+          </Button>}
         </Body>
         <Right>
           <Button transparent onPress={() => this.props.navigation.navigate('ProfileScreen')} >
-            <Icon type='Entypo' name='user' style={{ fontSize: 15 }} />
+            <Icon type='Entypo' name='user' style={{ fontSize: 22 }} />
           </Button> 
         </Right>
       </Header>

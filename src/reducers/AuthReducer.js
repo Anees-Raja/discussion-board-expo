@@ -1,4 +1,4 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR, ADD_USER_TO_FIREBASE } from '../actions/auth_actions'
+import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR, ADD_USER_TO_FIREBASE, SIGN_OUT } from '../actions/auth_actions'
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -23,6 +23,12 @@ export default AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.err,
+        isLoading: false
+      }
+    case SIGN_OUT:
+      return {
+        ...state,
+        currentUser: {},
         isLoading: false
       }
     default:

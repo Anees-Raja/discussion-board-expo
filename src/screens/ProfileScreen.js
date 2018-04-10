@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
+import { Text, Content, Footer, Button } from 'native-base';
+
+import SecondaryHeader from '../components/SecondaryHeader';
 import AvatarContainer from '../components/Profile/Avatar/AvatarContainer';
 import UserInfoContainer from '../components/Profile/UserInfo';
-import { Text, Content } from 'native-base';
+import SignOutButton from '../components/Profile/SignOutButton';
 
 export default class ProfileScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <SecondaryHeader navigation={this.props.navigation} pageTitle='You' />
         <Image style={styles.image} source={require('../../assets/images/blur-background08.jpg')} />
+        <SecondaryHeader navigation={this.props.navigation} pageTitle='You' />
         <Content padder>
           <AvatarContainer />
           <UserInfoContainer />
         </Content>
+        <Footer style={styles.footer}>
+          <SignOutButton />
+        </Footer>
       </View>
     );
   }
@@ -42,5 +48,9 @@ const styles = StyleSheet.create({
     right: 0, 
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  footer: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
   }
 });

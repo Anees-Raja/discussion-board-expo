@@ -19,6 +19,11 @@ export default DataReducer = (state = INITIAL_STATE, action) => {
         ...state,
         courses: action.arr
       }
+    case 'SIGN_OUT':
+      return {
+        events: [],
+        courses: []
+      }
     default:
       return { ...state }
   }

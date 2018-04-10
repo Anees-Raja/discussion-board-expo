@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Button, Text, Icon } from 'native-base';
+import { Container, Button, Text, Icon } from 'native-base';
 import { Google } from 'expo'
 
 export default class LoginButton extends Component {
@@ -14,10 +14,9 @@ export default class LoginButton extends Component {
 
   render() {
     return(
-      <Button style={styles.button} onPress={() => this.handlePress()} block danger >
-        <Icon name='logo-google' />
+      <Button style={styles.button} onPress={() => this.handlePress()} danger iconRight >
         <Text style={styles.text}>Login</Text>
-        <Icon name='arrow-round-forward' />
+        <Icon style={styles.icon} type='FontAwesome' name='google-plus' />
       </Button>
     )
   }
@@ -26,11 +25,11 @@ export default class LoginButton extends Component {
 const styles = StyleSheet.create({
   button: {
     alignSelf: 'center',
-    justifyContent: 'center',
-    width: 160,
-    height: 40,
   },
   text: {
+    color: '#ffffff',
+  },
+  icon: {
     color: '#ffffff',
   }
 })

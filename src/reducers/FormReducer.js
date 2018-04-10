@@ -56,6 +56,16 @@ export default FormReducer = ( state = INITIAL_STATE, action ) => {
         event_date: '',
         showDatePicker: false
       }
+    case 'SIGN_OUT':
+      return {
+        ...state,
+        formType: '',
+        title: '',
+        body: '',
+        media: {},
+        event_date: '',
+        showDatePicker: false
+      }
     default:
       return { ...state }
   }

@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'; // 4.12.1
-
+//ignore
 const config = {
   apiKey: "AIzaSyBBM0fWoin97JTQbiYqpc68P5AvaNWco98",
   authDomain: "discussion-board-pvhs.firebaseapp.com",

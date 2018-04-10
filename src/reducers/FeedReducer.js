@@ -12,6 +12,10 @@ export default FeedReducer = (state = INITIAL_STATE, action) => {
         ...state,
         data: action.arr
       }
+    case 'SIGN_OUT':
+      return {
+        data: []
+      }
     default:
     return { ...state }
   }

@@ -10,10 +10,10 @@ export default class ActivityScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <SecondaryHeader navigation={this.props.navigation} pageTitle='Your Courses' />
         <Image style={styles.image} source={require('../../assets/images/blur-background08.jpg')} />
+        <SecondaryHeader navigation={this.props.navigation} pageTitle='Your Courses' />
         <Content padder>
-          <CourseListContainer />
+          <CourseListContainer navigation={this.props.navigation} />
         </Content>
       </View>
     );

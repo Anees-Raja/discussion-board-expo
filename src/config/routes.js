@@ -7,7 +7,7 @@ import LoginScreen from '../screens/LoginScreen'
 import LoadingScreen from '../screens/LoadingScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ActivityScreen from '../screens/ActivityScreen'
-import FormEntryScreen from '../screens/FormEntryScreen'
+import CourseScreen from '../screens/CourseScreen'
 import PostFormScreen from '../screens/PostFormScreen';
 
 const MainNavigator = StackNavigator({
@@ -26,8 +26,8 @@ const MainNavigator = StackNavigator({
   LoadingScreen: {
     screen: LoadingScreen,
   },
-  FormEntry: {
-    screen: FormEntryScreen,
+  CourseScreen: {
+    screen: CourseScreen,
   },
   PostForm: {
     screen: PostFormScreen,
