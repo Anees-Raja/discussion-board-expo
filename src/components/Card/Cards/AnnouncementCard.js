@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Content, CardItem, Left, Right, Text, Body, Button, Icon, Container, Card } from 'native-base';
+import { StyleSheet, WebView } from 'react-native';
+import { Content, CardItem, Left, Right, Text, Body, Button, Icon, Container, Card, View } from 'native-base';
 import moment from 'moment';
 
 export default class AnnouncementCard extends Component {
@@ -16,7 +16,12 @@ export default class AnnouncementCard extends Component {
         <CardItem style={styles.cardItem}>
           <Body>
             <Text style={{ color: 'white', backgroundColor: 'transparent' }} >{this.props.data.body}</Text>
-          </Body> 
+            <View style={{ flex:1 }}>
+              <WebView
+                javaScriptEnabled={true}
+                source={{uri: 'https://www.youtube.com/embed/ZZ5LpwO-An4?rel=0&autoplay=0&showinfo=0&controls=0'}} />
+            </View>
+          </Body>
         </CardItem>
         <CardItem footer style={styles.cardItem}>
           <Left>

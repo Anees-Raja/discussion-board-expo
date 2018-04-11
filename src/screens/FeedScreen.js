@@ -27,9 +27,6 @@ class FeedScreen extends Component {
             </Row>}
             {isAdmin &&
             <Row style={styles.buttonRow} size={10} >
-              {/* <Button large rounded transparent primary  onPress={() => this.props.navigation.navigate('FormEntry')} >
-                <Icon type='SimpleLineIcons' name='plus' style={{ fontSize: 42 }} />
-              </Button> */}
               <FormEntryContainer navigation={this.props.navigation} />
             </Row>}
           </Grid>
